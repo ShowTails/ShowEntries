@@ -6,32 +6,109 @@
   <title>Rabbit Show Entry</title>
 
   <style>
-    :root { --border: #111; --muted: #f2f2f2; }
-    body { font-family: Arial, Helvetica, sans-serif; margin: 18px; color:#000; }
-    .header { text-align:center; }
-    .header h1 { font-size: 20px; margin: 0 0 6px; }
-    .header .meta { font-size: 12px; margin: 0 0 14px; }
+    :root {
+      --border: #111;
+      --muted: #f2f2f2;
+    }
 
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 18px;
+      color: #000;
+    }
+
+    /* ACTION BUTTON */
+    .actions {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .actions button {
+      font-size: 12px;
+      padding: 6px 12px;
+      border: 1px solid #111;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .actions button:hover {
+      background: #f2f2f2;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      margin: 0 0 6px;
+    }
+
+    .header .meta {
+      font-size: 12px;
+      margin: 0 0 14px;
+    }
+
+    /* EXHIBITOR INFO */
     .grid {
-      display:grid;
+      display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px 18px;
       font-size: 12px;
       margin: 10px 0 14px;
     }
-    .field { line-height: 1.35; }
-    .label { font-weight: 700; }
-    .value { border-bottom: 1px solid #aaa; padding: 0 0 1px; display:inline-block; min-width: 120px; }
 
-    table { width:100%; border-collapse: collapse; font-size: 11px; }
-    th, td { border: 1px solid var(--border); padding: 4px 6px; }
-    th { background: var(--muted); text-align:center; font-weight:700; }
-    td { text-align:center; vertical-align: middle; }
-    td.left { text-align:left; }
-    .x { font-weight: 700; }
+    .field {
+      line-height: 1.35;
+    }
 
+    .label {
+      font-weight: 700;
+    }
+
+    .value {
+      border-bottom: 1px solid #aaa;
+      padding-bottom: 1px;
+      display: inline-block;
+      min-width: 140px;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 4px 6px;
+    }
+
+    th {
+      background: var(--muted);
+      text-align: center;
+      font-weight: 700;
+    }
+
+    td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    td.left {
+      text-align: left;
+    }
+
+    .x {
+      font-weight: 700;
+    }
+
+    /* TOTAL */
     .totals {
-      display:flex;
+      display: flex;
       justify-content: flex-end;
       margin-top: 10px;
       font-size: 12px;
@@ -39,97 +116,122 @@
       gap: 8px;
     }
 
+    /* FOOTER */
     .footer {
-      margin-top: 14px;
-      display:grid;
+      margin-top: 16px;
+      display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 18px;
       font-size: 11px;
     }
-    .line { border-bottom: 1px solid #000; height: 14px; }
 
+    .line {
+      border-bottom: 1px solid #000;
+      height: 14px;
+    }
+
+    /* PRINT RULES */
     @media print {
-      body { margin: 0.5in; }
-      a { color:#000; text-decoration:none; }
+      body {
+        margin: 0.5in;
+      }
+      .actions {
+        display: none;
+      }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- PRINT BUTTON -->
+  <div class="actions">
+    <button onclick="window.print()">Save as PDF / Print</button>
+  </div>
+
+  <!-- HEADER -->
   <div class="header">
-    <h1 id="showName"></h1>
+    <h1 data-field="show_name"></h1>
     <div class="meta">
-      <span id="hostingClub"></span> •
-      <span id="showDate"></span> •
-      <span id="showType"></span> •
-      Shows: <span id="showIds"></span>
+      <span data-field="hosting_club"></span> •
+      <span data-field="show_date"></span> •
+      <span data-field="show_type"></span> •
+      Shows: <span data-field="show_ids"></span>
     </div>
   </div>
 
+  <!-- EXHIBITOR INFO -->
   <div class="grid">
-    <div class="field"><span class="label">Exhibitor:</span> <span class="value" id="exhibitorName"></span></div>
-    <div class="field"><span class="label">Phone:</span> <span class="value" id="exhibitorPhone"></span></div>
-    <div class="field"><span class="label">Address:</span> <span class="value" id="exhibitorAddress"></span></div>
-    <div class="field"><span class="label">Email:</span> <span class="value" id="exhibitorEmail"></span></div>
+    <div class="field">
+      <span class="label">Exhibitor:</span>
+      <span class="value" data-field="exhibitor_name"></span>
+    </div>
+    <div class="field">
+      <span class="label">Phone:</span>
+      <span class="value" data-field="exhibitor_phone"></span>
+    </div>
+    <div class="field">
+      <span class="label">Address:</span>
+      <span class="value" data-field="exhibitor_address"></span>
+    </div>
+    <div class="field">
+      <span class="label">Email:</span>
+      <span class="value" data-field="exhibitor_email"></span>
+    </div>
   </div>
 
+  <!-- ENTRY TABLE -->
   <table>
     <thead>
       <tr>
-        <th style="width:34px;">#</th>
+        <th>#</th>
         <th>Breed</th>
         <th>Variety</th>
-        <th style="width:90px;">Ear/Tattoo</th>
-        <th style="width:60px;">Class</th>
-        <th style="width:60px;">Sex</th>
-        <th style="width:34px;">A</th>
-        <th style="width:34px;">B</th>
-        <th style="width:34px;">C</th>
-        <th style="width:34px;">D</th>
-        <th style="width:70px;">Fee</th>
+        <th>Ear / Tattoo</th>
+        <th>Class</th>
+        <th>Sex</th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>Fee</th>
       </tr>
     </thead>
     <tbody id="rows"></tbody>
   </table>
 
+  <!-- TOTAL -->
   <div class="totals">
     <div>Total owed for all entries:</div>
     <div>$<span id="totalOwed">0.00</span></div>
   </div>
 
+  <!-- SIGNATURE -->
   <div class="footer">
     <div>
-      <div><strong>Exhibitor Signature</strong></div>
+      <strong>Exhibitor Signature</strong>
       <div class="line"></div>
     </div>
     <div>
-      <div><strong>Date</strong></div>
+      <strong>Date</strong>
       <div class="line"></div>
     </div>
   </div>
 
 <script>
-  const qs = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search);
 
-  const get = (k) => (qs.get(k) || "").trim();
-  const money = (n) => (Math.round((n + Number.EPSILON) * 100) / 100).toFixed(2);
+  /* Populate all data-field elements */
+  document.querySelectorAll("[data-field]").forEach(el => {
+    const key = el.getAttribute("data-field");
+    const value = params.get(key);
+    if (value !== null) {
+      el.textContent = decodeURIComponent(value);
+    }
+  });
 
-  // Header fields
-  document.getElementById("showName").textContent = get("show_name");
-  document.getElementById("hostingClub").textContent = get("hosting_club");
-  document.getElementById("showDate").textContent = get("show_date");
-  document.getElementById("showType").textContent = get("show_type");
-  document.getElementById("showIds").textContent = get("show_ids");
-
-  // Exhibitor fields
-  document.getElementById("exhibitorName").textContent = get("exhibitor_name");
-  document.getElementById("exhibitorAddress").textContent = get("exhibitor_address");
-  document.getElementById("exhibitorEmail").textContent = get("exhibitor_email");
-  document.getElementById("exhibitorPhone").textContent = get("exhibitor_phone");
-
-  // Determine which show identifiers are in play (A/B/C/D)
   const enabledShows = new Set(
-    (get("show_ids") || "")
+    (params.get("show_ids") || "")
       .split(",")
       .map(s => s.trim().toUpperCase())
       .filter(Boolean)
@@ -137,84 +239,58 @@
 
   const tbody = document.getElementById("rows");
   let total = 0;
-
-  function hasAnyRabbitData(i) {
-    return (
-      get(`r${i}_breed`) ||
-      get(`r${i}_variety`) ||
-      get(`r${i}_ear`) ||
-      get(`r${i}_class`) ||
-      get(`r${i}_sex`) ||
-      get(`r${i}_shows`) ||
-      get(`r${i}_fee`)
-    );
-  }
-
-  function showMarks(i) {
-    const selected = new Set(
-      (get(`r${i}_shows`) || "")
-        .split(",")
-        .map(s => s.trim().toUpperCase())
-        .filter(Boolean)
-    );
-
-    const mark = (letter) => {
-      if (!enabledShows.has(letter)) return ""; // show not offered
-      return selected.has(letter) ? '<span class="x">X</span>' : "";
-    };
-
-    return {
-      A: mark("A"),
-      B: mark("B"),
-      C: mark("C"),
-      D: mark("D"),
-    };
-  }
-
-  // Render up to 20 rabbits; only add rows that have data
   let rowNum = 0;
 
+  function hasRabbit(i) {
+    return (
+      params.get(`r${i}_breed`) ||
+      params.get(`r${i}_variety`) ||
+      params.get(`r${i}_ear`) ||
+      params.get(`r${i}_class`) ||
+      params.get(`r${i}_sex`) ||
+      params.get(`r${i}_shows`) ||
+      params.get(`r${i}_fee`)
+    );
+  }
+
+  function mark(i, letter) {
+    if (!enabledShows.has(letter)) return "";
+    const selected = (params.get(`r${i}_shows`) || "")
+      .split(",")
+      .map(s => s.trim().toUpperCase());
+    return selected.includes(letter) ? "<span class='x'>X</span>" : "";
+  }
+
+  function money(n) {
+    return Number(n || 0).toFixed(2);
+  }
+
   for (let i = 1; i <= 20; i++) {
-    if (!hasAnyRabbitData(i)) continue;
+    if (!hasRabbit(i)) continue;
 
     rowNum++;
-    const breed = get(`r${i}_breed`);
-    const variety = get(`r${i}_variety`);
-    const ear = get(`r${i}_ear`);
-    const rclass = get(`r${i}_class`);
-    const sex = get(`r${i}_sex`);
-    const feeRaw = get(`r${i}_fee`);
-    const fee = Number(feeRaw || 0);
-
-    const marks = showMarks(i);
-
-    // Accumulate total (only if fee is a valid number)
-    if (!Number.isNaN(fee)) total += fee;
+    const fee = Number(params.get(`r${i}_fee`) || 0);
+    if (!isNaN(fee)) total += fee;
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
       <td>${rowNum}</td>
-      <td class="left">${escapeHtml(breed)}</td>
-      <td class="left">${escapeHtml(variety)}</td>
-      <td>${escapeHtml(ear)}</td>
-      <td>${escapeHtml(rclass)}</td>
-      <td>${escapeHtml(sex)}</td>
-      <td>${marks.A}</td>
-      <td>${marks.B}</td>
-      <td>${marks.C}</td>
-      <td>${marks.D}</td>
-      <td>$${money(Number.isNaN(fee) ? 0 : fee)}</td>
+      <td class="left">${escapeHtml(params.get(`r${i}_breed`))}</td>
+      <td class="left">${escapeHtml(params.get(`r${i}_variety`))}</td>
+      <td>${escapeHtml(params.get(`r${i}_ear`))}</td>
+      <td>${escapeHtml(params.get(`r${i}_class`))}</td>
+      <td>${escapeHtml(params.get(`r${i}_sex`))}</td>
+      <td>${mark(i,"A")}</td>
+      <td>${mark(i,"B")}</td>
+      <td>${mark(i,"C")}</td>
+      <td>${mark(i,"D")}</td>
+      <td>$${money(fee)}</td>
     `;
     tbody.appendChild(tr);
   }
 
-  // If Glide sends total_owed, you can choose to display that instead:
-  // const passedTotal = get("total_owed");
-  // document.getElementById("totalOwed").textContent = passedTotal ? money(Number(passedTotal)) : money(total);
-
   document.getElementById("totalOwed").textContent = money(total);
 
-  // Basic escaping to prevent HTML injection from query params
   function escapeHtml(str) {
     return (str || "")
       .replaceAll("&", "&amp;")
@@ -224,5 +300,6 @@
       .replaceAll("'", "&#039;");
   }
 </script>
+
 </body>
 </html>
